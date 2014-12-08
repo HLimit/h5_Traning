@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.js"></script>
+	<link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+	<div role="title">
+		text in div
+		<h1>inside div h1</h1>
+	</div>
+	<div>
+		<h1>outside div h1</h1>
+		<span id="line1">line1</span>
+		<p class="line">line2</p>
+		<p class="line">line3</p>
+		<p class="line">line4</p>
+
+		<label>remember?</label>
+
+		<input type="checkbox"/>
+
+		<div class="styled-checkbox">
+			<input type="checkbox"/>
+			<label></label>
+		</div>
+
+	</div>
+
+	<script type="text/javascript">
+
+		$('.styled-checkbox').click(function() {
+			$(this).children('input').trigger('click');
+		})
+
+	</script>
+</body>
+</html>

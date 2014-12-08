@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html>
+	<style type="text/css">
+
+		canvas {
+			border: 1px solid black;
+		}
+
+	</style>
+<head>
+
+</head>
+
+<body>
+	<canvas id="myCanvas" width="800" height="600">
+		Your browser is not support canvas
+	</canvas>
+
+	<svg width="800" height="600" viewBox="0,0,20,20" xmlns="http://www.w3.org/2000/svg" style="border: 1px solid #000;">
+		<path d="M10,5 L10,15 M8,15 L12,15" stroke="#000"></path>
+		<path id="trangle" d="M10,5 L15,7.5 L10,10" fill="#f00"></path>
+	</svg>
+
+
+	<script type="text/javascript">
+
+	function drawingFlag(_ctx,gridWidth){
+
+		_ctx.save();
+		_ctx.beginPath();
+		_ctx.strokeStyle = '#cccccc';
+		_ctx.lineWidth = 0.4;
+
+		_ctx.moveTo(0,gridWidth/4);
+		_ctx.lineTo(gridWidth,gridWidth/4);
+		_ctx.moveTo(0,gridWidth/2);
+		_ctx.lineTo(gridWidth,gridWidth/2);
+		_ctx.moveTo(0,gridWidth*0.75);
+		_ctx.lineTo(gridWidth,gridWidth*0.75);
+		_ctx.moveTo(0,gridWidth);
+		_ctx.lineTo(gridWidth,gridWidth);
+
+		_ctx.moveTo(gridWidth/4,0);
+		_ctx.lineTo(gridWidth/4,gridWidth);
+		_ctx.moveTo(gridWidth/2,0);
+		_ctx.lineTo(gridWidth/2,gridWidth);
+		_ctx.moveTo(gridWidth*0.75,0);
+		_ctx.lineTo(gridWidth*0.75,gridWidth);
+		_ctx.moveTo(gridWidth,0);
+		_ctx.lineTo(gridWidth,gridWidth);
+		_ctx.stroke();
+
+
+		_ctx.beginPath();
+		_ctx.strokeStyle="#000000";
+		_ctx.lineWidth = gridWidth * 0.04;
+		_ctx.moveTo(gridWidth/2,gridWidth/4);
+		_ctx.lineTo(gridWidth/2,gridWidth*0.75);
+		_ctx.moveTo(gridWidth/2-gridWidth*0.1,gridWidth*0.75);
+		_ctx.lineTo(gridWidth/2+gridWidth*0.1,gridWidth*0.75);
+		_ctx.stroke();
+
+		_ctx.fillStyle = "#ff0000";
+		_ctx.moveTo(gridWidth/2,gridWidth/4);
+		_ctx.lineTo(gridWidth*0.75,gridWidth*0.375);
+		_ctx.lineTo(gridWidth*0.5,gridWidth*0.5);
+		_ctx.fill();
+
+		_ctx.restore();
+	}
+
+	var gridWidth = 400;
+
+	var canvas = document.getElementById('myCanvas');
+	var _ctx = canvas.getContext('2d');
+
+
+
+	drawingFlag(_ctx,gridWidth);
+
+
+	_ctx.fillRect(0,0,100,100);
+
+	var tran = document.querySelector('#trangle')
+	tran.addEventListener('click',function(){
+
+		alert(1);
+	})
+
+	</script>
+
+</body>
+
+
+</html>

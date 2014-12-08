@@ -1,0 +1,94 @@
+<style type="text/css">
+	
+	body{
+		font-family: 'Arail',monospace;
+	}
+
+	.form-row {
+		margin-top: 5px;
+		padding:5px;
+		width: 600px;
+	}
+
+	.form-row:after{
+		content: " ";
+		display: block;
+		clear: both;
+		visibility: hidden;
+		height: 0px;
+	}
+
+	.form-row label:last-child {
+		display: block;
+		width: 200px;
+		text-align: right;
+		margin-right:5px;
+		float: right;
+	}
+
+	.form-row input
+	,.form-row button {
+		display: block;
+		float: right;
+	}
+
+	.form-row input[type="text"]
+	,.form-row input[type="password"]
+	,.form-row input[type="email"] {
+		height: 30px;
+		width: 300px;
+	}
+
+	.form-row input[required] + label:before {
+		content: "*";
+		color: red;
+	}
+
+</style>
+
+
+<form id="myForm"> 
+	<div class="form-row">
+		<input type="text" required="required" name="name" placeholder="John">
+		<label>Name:</label>
+	</div>
+	<div class="form-row">
+		<input type="password" required="required" name="password"/>
+		<label>Password:</label>
+	</div>
+	<div class="form-row">
+		<input type="password" required="required" name="password_confirm"/>		
+		<label>Password Confirm:</label>
+	</div>
+	<div class="form-row">
+		<input type="email" required="required" name="email" pattern=".+@.+" />		
+		<label>Email:</label>
+	</div>
+	<div class="form-row">
+		<input type="text" name="qq" pattern="\d+" />		
+		<label>QQ:</label>
+	</div>
+	<div class="form-row">
+		<label>&nbsp;</label>
+		<input type="submit"/>
+	</div>
+</form>
+
+<script type="text/javascript">
+
+	var form = document.getElementById('myForm');
+	form.addEventListener('submit',function(e){
+
+		var p1 = document.querySelector('input[name=password]').value;
+		var p2 = document.querySelector('input[name=password_confirm]').value;
+		if(p1 && p2 && p1 == p2){
+			form.submit();
+		}
+		else{
+			alert('password are not matched.')
+			e.preventDefault();
+			e.stopPropagation();
+		}
+	})
+
+</script>

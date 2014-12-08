@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+
+	<style type="text/css">
+
+		#cart{
+			width: 400px;
+			border: 2px solid #f00;
+			padding: 5px;
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+<h3>My Cart</h3>
+<div id="cart">
+
+
+</div>
+
+
+<ul id="books">
+	<li><a href="##">Tom Clancy Full Force and Effect (A Jack Ryan Novel)</a></li>
+	<li><a href="##">The Escape (John Puller Series)</a></li>
+	<li><a href="##">Unbroken: A World War II Story of Survival, Resilience, and Redemption</a></li>
+	<li><a href="##">Hard Limit (Hacker Series Book 4) (Volume 4)</a></li>
+	<li><a href="##">The World Almanac and Book of Facts 2015</a></li>
+	<li><a href="##">The Burning Room (A Harry Bosch Novel)</a></li>
+</ul>
+
+
+<script type="text/javascript">
+	
+	function getCartData(){
+		var cd = window.localStorage.getItem('cart_data');
+		if(!cd){
+			return;
+		}
+
+		var parsed_cd = JSON.parse(cd);
+		if($.isArray(parsed_cd)){
+			return parsed_cd;
+		}
+	}
+
+	function renderCart(e){
+
+		if(e.key == 'cart_data'){
+			var cd = JSON.parse(e.newValue);
+			$('#cart').empty();
+
+			cd.forEach(function(item){
+				$('#cart').append('<p>' + item + '</p>')
+			})
+
+		}
+
+	}
+
+
+	var cart_data = [];
+	window.localStorage.setItem('cart_data',JSON.stringify(cart_data));
+
+	window.addEventListener('storage',renderCart,false);
+
+	$('#books').on('click','li a',function (e) {
+
+		var parsed_cd  = getCartData();
+		if(!parsed_cd) return;
+
+		var $this = $(this);
+		
+		parsed_cd.push($this.text());
+		window.localStorage.setItem('cart_data',JSON.stringify(parsed_cd));
+		e.preventDefault();
+		e.stopPropagation();
+	})
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+		div {
+			border: 1px solid #000;
+		}
+		
+		.container {
+			width: 960px;
+			margin: auto;
+			height: 500px;
+			position: relative;
+		}
+
+		#div9 {
+			width: 100px;
+			height: 100px;
+			border: 1px dashed #000;
+			position: absolute;
+		}
+
+		#div91 {
+			width: 100px;
+			height: 100px;
+			border: 1px dashed #000;
+			position: absolute;
+			transform: translate(50px,50px);
+		}
+
+		#div92 {
+			width: 100px;
+			height: 100px;
+			border: 1px dashed #000;
+			position: absolute;
+			transform: translate(50px,50px)  rotate(45deg);
+			z-index: 1000;	
+		}
+
+		#div10{
+			width: 100px;
+			height: 100px;
+			background-color: #0ff;
+			transform: translate(50px,50px) rotate(45deg) scale(1.3,1.3);
+		}
+
+
+
+		#div11 {
+			width: 100px;
+			height: 100px;
+			border: 1px dashed #000;
+			position: absolute;
+			-webkit-transition: width 1s;
+		}
+
+
+		#div11:hover{
+			width: 200px;
+		}
+
+		@-webkit-keyframes color-animation
+		{
+			0%   {background: red;}
+			25%  {background: yellow;}
+			50%  {background: blue;}
+			100% {background: green;}
+		}
+
+
+		@-webkit-keyframes shake-little{0%{-webkit-transform:translate(0px, 0px) rotate(0deg)}
+2%{-webkit-transform:translate(-1px, 0px) rotate(-0.5deg)}
+4%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+6%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+8%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+10%{-webkit-transform:translate(0px, -1px) rotate(-0.5deg)}
+12%{-webkit-transform:translate(-1px, 0px) rotate(-0.5deg)}
+14%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+16%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+18%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+20%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+22%{-webkit-transform:translate(0px, -1px) rotate(-0.5deg)}
+24%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+26%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+28%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+30%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+32%{-webkit-transform:translate(0px, -1px) rotate(-0.5deg)}
+34%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+36%{-webkit-transform:translate(0px, -1px) rotate(-0.5deg)}
+38%{-webkit-transform:translate(-1px, 0px) rotate(-0.5deg)}
+40%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+42%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+44%{-webkit-transform:translate(-1px, 0px) rotate(-0.5deg)}
+46%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+48%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+50%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+52%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+54%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+56%{-webkit-transform:translate(-1px, 0px) rotate(-0.5deg)}
+58%{-webkit-transform:translate(0px, -1px) rotate(-0.5deg)}
+60%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+62%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+64%{-webkit-transform:translate(-1px, 0px) rotate(-0.5deg)}
+66%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+68%{-webkit-transform:translate(-1px, 0px) rotate(-0.5deg)}
+70%{-webkit-transform:translate(0px, -1px) rotate(-0.5deg)}
+72%{-webkit-transform:translate(0px, -1px) rotate(-0.5deg)}
+74%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+76%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+78%{-webkit-transform:translate(0px, -1px) rotate(-0.5deg)}
+80%{-webkit-transform:translate(0px, -1px) rotate(-0.5deg)}
+82%{-webkit-transform:translate(-1px, 0px) rotate(-0.5deg)}
+84%{-webkit-transform:translate(-1px, 0px) rotate(-0.5deg)}
+86%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+88%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+90%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+92%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+94%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+96%{-webkit-transform:translate(-1px, -1px) rotate(-0.5deg)}
+98%{-webkit-transform:translate(0px, 0px) rotate(-0.5deg)}
+}
+
+	</style>
+</head>
+<body>
+
+	<div class="container">
+		<div id="div9"></div>
+		<div id="div91"></div>
+		<div id="div92"></div>
+		<div id="div10"></div>
+		<div id="div11"></div>
+	</div>
+
+	
+
+</body>
+</html>

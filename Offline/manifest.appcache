@@ -1,0 +1,17 @@
+CACHE MANIFEST
+# version 1.0
+# Explicit cache declarations
+CACHE:
+a.js
+b.js
+reset.css
+main.css
+http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js
+
+# The following should not be cached
+NETWORK:
+login.php
+/api/
+
+# 11111111111
+FALLBACK

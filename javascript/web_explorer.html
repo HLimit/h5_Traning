@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="http://cdn.bootcss.com/jquery/2.1.1-rc2/jquery.min.js"></script>
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+
+			var $ul = $('#list');
+			var $back = $('#back');
+
+			function fetch(pid){
+				var _pid = pid || null;
+				$.ajax({
+					url : 'http://clouddoc.sinaapp.com/resources?pid=' + _pid,
+					type : 'GET',
+					success: function(resp){
+						if(resp && $.isArray(resp)){
+							$ul.empty();
+							resp.forEach(function(item){
+								var $li = $('<li></li>');
+								if(item.type == 0){
+									var $a = $('<a href="##"></a>');
+									$li.append($a);
+									$a.html(item.file_name);
+									$a.data('id',item.id);
+								}
+								else{
+									$li.html(item.file_name);
+								}
+
+								$ul.append($li);
+							})
+						}
+					}
+				})
+			}
+
+			fetch();
+
+
+			$ul.on('click','a',function(){
+
+				var $this = $(this);
+				var id = $this.data('id');
+				fetch(id);
+			})
+		})
+
+	</script>
+
+</head>
+<body>
+	<ul id="list"></ul>
+</body>
+</html>

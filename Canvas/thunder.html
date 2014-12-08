@@ -1,0 +1,394 @@
+<html>
+
+<head>
+
+	<meta charset="UTF-8"/>
+
+	<script type="text/javascript">
+		
+		Lei = function() {
+			this._x = 0;
+			this._y = 0;
+			this._isLei = false;
+			this._number = -1;
+			this._isOpen = false;
+			this._isFlaged = false;
+		};
+		Lei.prototype = {
+			//parent canvase
+			_ctx : null,
+			
+			//draw number for block,1~8
+			drawNumColor : function(){
+				var color = "#";
+				if(this._number == 1) color= "#1fb538";
+				if(this._number == 2) color= "#6a37d3";
+				if(this._number == 3) color= "#dd255d";
+				if(this._number == 4) color= "#1f26b8";
+				if(this._number == 5) color= "#e46b13";
+				if(this._number == 6) color= "#454544";
+				if(this._number == 7) color= "#24877d";
+				if(this._number == 8) color= "#24877d";
+				
+				_ctx.save();
+				_ctx.translate(this._x*gridWidth + gridWidth/4,(this._y+1)*gridWidth - gridWidth/4);
+				var fontsize = gridWidth/2*0.75;
+				_ctx.font = fontsize + "pt impact";
+				_ctx.fillStyle = color;//"#996600";
+				_ctx.fillText(this._number,0,0);
+				_ctx.restore();
+				
+			},
+			
+			//draw original gradientBK
+			drawGradientBK : function(){
+				_ctx.save();
+				_ctx.translate(this._x*gridWidth ,this._y*gridWidth);
+				var grd=_ctx.createLinearGradient(0,0,gridWidth,gridWidth);
+				grd.addColorStop(0,"#4b4b4b");
+				grd.addColorStop(1,"#252525");
+				_ctx.fillStyle=grd;
+				_ctx.fillRect(0,0,gridWidth,gridWidth);
+				_ctx.restore();		
+			},
+			
+			//draw bk for opened number 0
+			draw0NumberBK : function(){
+				_ctx.save();
+				_ctx.translate(this._x*gridWidth ,this._y*gridWidth);
+				_ctx.fillStyle="#CCCCCC";
+				_ctx.fillRect(1,1,gridWidth-1,gridWidth-1);
+				_ctx.restore();
+			},
+			
+			//drawFlag
+			drawFlag : function(){
+				_ctx.save();
+				_ctx.translate(this._x*gridWidth - gridWidth*0.1 ,this._y*gridWidth);
+				_ctx.beginPath();
+				_ctx.strokeStyle="#000000";
+				_ctx.lineWidth = gridWidth * 0.04;
+				_ctx.moveTo(gridWidth/2,gridWidth/4);
+				_ctx.lineTo(gridWidth/2,gridWidth*0.75);
+				_ctx.moveTo(gridWidth/2-gridWidth*0.1,gridWidth*0.75);
+				_ctx.lineTo(gridWidth/2+gridWidth*0.1,gridWidth*0.75);
+				_ctx.stroke();
+				
+				_ctx.fillStyle = "#ff0000";
+				_ctx.moveTo(gridWidth/2,gridWidth/4);
+				_ctx.lineTo(gridWidth*0.75,gridWidth*0.375);
+				_ctx.lineTo(gridWidth*0.5,gridWidth*0.5);
+				_ctx.fill();
+				_ctx.restore();
+			},
+			
+			//draw mouse down bk
+			drawMDown : function(){
+				_ctx.save();
+				_ctx.translate(this._x*gridWidth ,this._y*gridWidth);
+				
+				_ctx.shadowBlur = 0;  
+				_ctx.shadowColor = "#333";  
+				_ctx.shadowOffsetX = 1;  
+				_ctx.shadowOffsetY = 1;  
+				
+				_ctx.fillStyle="#CCCCCC";
+				_ctx.fillRect(1,1,gridWidth-2,gridWidth-2);
+				_ctx.restore();	
+				
+
+
+			},
+			
+			//set current block opened , and check if game over
+			setOpened : function(){
+				totalOpened++;
+				this._isOpen = true;
+				if(totalOpened == xGrid * yGrid * (1-leiRate)){
+				//TODO : win8 not allow alert,
+				//change to win8 style alert
+					alert("conguratulation!");
+					window.location.reload();
+				}
+			},
+			
+			//init current block if it is lei
+			setIsLei : function(value){
+				this._isLei = value;
+			},
+			
+			//init current block , set this._ctx to parent canvas
+			init : function(p_ctx) {
+				_ctx = p_ctx;
+			},
+			
+			
+			//calculat the number of each the current block where init
+			cal : function(){
+				var number = calNum(this._x,this._y);
+				this._number = number;
+			},
+			
+			//reset or init the block according to the block status
+			resetBlock : function(){
+				if(this._isOpen == false && this._isFlaged == false){
+					this.drawGradientBK();
+					return;
+				}
+				if(this._isOpen == false && this._isFlaged == true){
+					this.drawGradientBK();
+					this.drawFlag();
+					return;
+				}
+				if(this._isOpen == true && this._number == 0){
+					this.draw0NumberBK();
+					return;
+				}
+				if(this._isOpen == true && this._number != 0){
+					this.drawGradientBK();
+					this.drawNumColor();
+					return;
+				}
+			},
+			
+			//mousedown
+			preclick : function(){
+				if(this._isOpen == false && this._isFlaged == false){
+					this.drawMDown();
+				}
+			},
+			
+			//mouseup
+			click : function(callback){
+				if(this._isOpen == false && this._isFlaged == false){
+					if(this._isLei) {
+						//TODO : replace with win8 api
+						alert("crash!");
+						window.location.reload();
+					}
+					else{
+						this.setOpened();
+						this.resetBlock();
+						//if 0 , auto open surounding grid
+						if(this._number == 0){
+							callback(this._x,this._y);
+						}
+					}
+				}
+			},
+			
+			rightclick : function(){
+				if(this._isOpen == false){
+					if(this._isFlaged){
+						//clear flag
+						this.drawGradientBK();
+						this._isFlaged = false;
+					}
+					else{
+						//draw flag
+						this.drawFlag();
+						this._isFlaged = true;
+					}
+				}
+			},
+			
+			middleclick : function(callback){
+				if(this._isOpen == true){
+					if(this._number == calFlags(this._x,this._y)){
+						callback(this._x,this._y);
+					}
+				}
+			}
+			
+			
+		};
+		
+		//define grid
+		var xGrid = 15;
+		var yGrid = 15;
+		var gridWidth = 40;
+		//rate of lei
+		var leiRate = 0.2;
+		//offset of the canvas to top left
+		var offsetX = (window.screen.width-gridWidth*xGrid)/2;
+		var offsetY = 8;
+		//pre mouse down x y
+		var cDownX = 0;
+		var cDownY = 0;
+		//map
+		var map;
+		var totalOpened = 0;
+		
+		function GetRndX()
+		{
+			return Math.floor(Math.random()*xGrid);
+		}
+		
+		function GetRndY()
+		{
+			return Math.floor(Math.random()*yGrid);
+		}
+		
+		function calNum(x,y)
+		{
+			if(map[x][y]._isLei) return -1;
+			//xGrid , yGrid
+			var numLei = 0;
+			if(x >= 1)
+			{
+				if(y >= 1 && map[x-1][y-1]._isLei) numLei++;
+				if(map[x-1][y]._isLei) numLei++;
+				if(y <= yGrid-2 && map[x-1][y+1]._isLei) numLei++;
+			}
+			if(y >= 1 && map[x][y-1]._isLei) numLei++;
+			if(y <= yGrid-2 && map[x][y+1]._isLei) numLei++;
+			if(x <= xGrid-2)
+			{
+				if(y >= 1 && map[x+1][y-1]._isLei) numLei++;
+				if(map[x+1][y]._isLei) numLei++;
+				if(y <= yGrid-2 && map[x+1][y+1]._isLei) numLei++;
+			}
+			
+			return numLei;
+		}
+		
+		function calFlags(x,y)
+		{
+			//xGrid , yGrid
+			var flags = 0;
+			if(x >= 1)
+			{
+				if(y >= 1 && map[x-1][y-1]._isFlaged) flags++;
+				if(map[x-1][y]._isFlaged) flags++;
+				if(y <= yGrid-2 && map[x-1][y+1]._isFlaged) flags++;
+			}
+			if(y >= 1 && map[x][y-1]._isFlaged) flags++;
+			if(y <= yGrid-2 && map[x][y+1]._isFlaged) flags++;
+			if(x <= xGrid-2){
+				if(y >= 1 && map[x+1][y-1]._isFlaged) flags++;
+				if(map[x+1][y]._isFlaged) flags++;
+				if(y <= yGrid-2 && map[x+1][y+1]._isFlaged) flags++;
+			}
+			
+			return flags;
+		}
+		
+		function autoOpen(x,y)
+		{
+			//xGrid , yGrid
+			if(x >= 1)
+			{
+				if(y >= 1) map[x-1][y-1].click(autoOpen);
+				map[x-1][y].click(autoOpen);
+				if(y <= yGrid-2) map[x-1][y+1].click(autoOpen);
+			}
+			if(y >= 1) map[x][y-1].click(autoOpen);
+			if(y <= yGrid-2) map[x][y+1].click(autoOpen);
+			if(x <= xGrid-2)
+			{
+				if(y >= 1) map[x+1][y-1].click(autoOpen);
+				map[x+1][y].click(autoOpen);
+				if(y <= yGrid-2) map[x+1][y+1].click(autoOpen);
+			}
+		}
+		
+		
+		//registe canvas event
+		function click(){
+			var mX = event.pageX - offsetX;
+			var mY = event.pageY - offsetY;
+			var gX = Math.floor(mX/gridWidth);
+			var gY = Math.floor(mY/gridWidth);
+			if(!(gX > xGrid-1 || gY > yGrid - 1))
+			{
+				//left click
+				if(event.button == 0 && event.altKey == false){
+					if(cDownX == gX && cDownY == gY){
+						map[gX][gY].click(autoOpen);
+					}
+					else{
+						map[cDownX][cDownY].resetBlock();
+					}
+				}
+				else if(event.button == 0 && event.altKey == true){
+					map[gX][gY].middleclick(autoOpen);
+				}
+				//right click
+				else if(event.button == 2){
+					map[gX][gY].rightclick();
+				}
+			}
+		}
+		
+		function preclick(){
+			var mX = event.pageX - offsetX;
+			var mY = event.pageY - offsetY;
+			var gX = Math.floor(mX/gridWidth);
+			var gY = Math.floor(mY/gridWidth);
+			if(!(gX > xGrid-1 || gY > yGrid - 1)){
+				//left click
+				if(event.button == 0 && event.altKey == false){
+					map[gX][gY].preclick(autoOpen);
+				}
+			}
+			cDownX = gX;
+			cDownY = gY;
+		}
+
+		
+		window.onload = function()
+		{
+			document.oncontextmenu = function(){return false;}
+			//drawMap();
+			var _canvas = document.querySelector("#map");
+			_canvas.addEventListener("mousedown",preclick,true);
+			_canvas.addEventListener("mouseup",click,true);
+			
+			
+			var _context = _canvas.getContext("2d");
+			//init array
+			map = new Array(yGrid);
+			for(var i = 0 ; i < yGrid ; i++){
+				map[i] = new Array(xGrid);
+			}
+			for(var j = 0 ; j < xGrid ; j++){
+				for(var k = 0 ; k < yGrid ; k++){
+					map[j][k] = new Lei();
+					map[j][k]._x = j;
+					map[j][k]._y = k;
+					map[j][k].init(_context);
+				}
+			}
+			
+			for(var lei = 0,x,y ; lei < xGrid*yGrid*leiRate ; )
+			{
+				x = GetRndX();
+				y = GetRndY();
+				if(map[x][y]._isLei == false) {
+					map[x][y].setIsLei(true);
+					lei++;
+				}
+			}
+			
+			//draw lei
+			for(var j = 0 ; j < xGrid ; j++){
+				for(var k = 0 ; k < yGrid ; k++){
+					map[j][k].cal();
+					map[j][k].resetBlock();
+				}
+			}
+			
+		}
+
+	</script>
+
+</head>
+
+<body style="background:#333;width: 602px;margin: 0 auto;">
+	<canvas id="map" width="600" height="600">Your Browser is not support canvas</canvas>
+	<p>左键打开</p>
+	<p>右键标记</p>
+	<p>alt + 左键</p>
+</body>
+
+</html>

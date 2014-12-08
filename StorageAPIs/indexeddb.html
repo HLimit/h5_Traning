@@ -1,0 +1,110 @@
+<script type="text/javascript">
+
+	window.indexedDB = window.indexedDB || window.mozIndexedDB  || window.webkitIndexedDB || window.msIndexedDB;
+	window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction;
+	window.IDBCursor = window.IDBCursor || window.webkitIDBCursor;
+	window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange;
+
+	var db = null;  
+	var customerData = [  
+	        {ssn: "444-44-4444", name: "Bill", age: 25, email: "bill@company.com", nickName: ["1", "2", "3"]},  
+	        {ssn: "555-55-5555", name: "Donna", age: 34, email: "donna@home.org"},  
+	        {ssn: "666-66-6666", name: "Jack", age: 14, email: "jack@sina.com.cn"}  
+	    ];  
+
+
+	var request = indexedDB.open("MyTestDatabase",4);  
+
+	request.onupgradeneeded = function(response) {
+		// Obtain IDBDatabase    
+		db = request.result;
+		createObjectStore(db);
+	}
+
+
+	request.onsuccess = function(e) {  
+	    // Obtain IDBDatabase    
+	    db = request.result;
+
+
+	    //fetch
+		var trans = db.transaction(['customers'],'readonly')
+		var objectStore = trans.objectStore('customers');
+
+		// console.log('simple fetch');
+		// //simple fetch
+		// objectStore.openCursor().onsuccess = function(event) {  
+	              
+		//     var cursor = event.target.result;  
+		              
+		//     if (cursor) {  
+		//         var key = cursor.key;  
+		//         var rowData = cursor.value;  
+		//         console.log(rowData.name);  
+		//         cursor.continue();  
+		//     }  
+		// }
+
+		//range fetch
+		console.log('range fetch');
+		var boundKeyRange = IDBKeyRange.lowerBound("555-55-5555", false);
+		objectStore.openCursor(boundKeyRange).onsuccess = function(event) {  
+	              
+		    var cursor = event.target.result;  
+		              
+		    if (cursor) {  
+		        var key = cursor.key;  
+		        var rowData = cursor.value;  
+		        console.log(rowData.name);  
+		        cursor.continue();  
+		    }  
+		}
+
+		//by index 'name'
+		// console.log('by index `name`');
+		// var boundKeyOnly = IDBKeyRange.only("Jack");
+
+		// objectStore.index("name").openCursor(boundKeyOnly).onsuccess = function(event) {  
+	              
+		//     var cursor = event.target.result;  
+		              
+		//     if (cursor) {  
+		//         var key = cursor.key;  
+		//         var rowData = cursor.value;  
+		//         console.log(rowData.name);  
+		//         cursor.continue();  
+		//     }  
+		// }
+
+	}
+
+
+	function createObjectStore(db) {  
+	  
+	    if (db.objectStoreNames.contains('customers')) {  
+	        db.deleteObjectStore("customers")  
+	    }  
+	    // Create Object Store  
+	    // This method was not called from a VERSION_CHANGE transaction callback.  
+	    var objectStore = db.createObjectStore("customers", {  
+	        // primary key  
+	        keyPath: "ssn",  
+	        // auto increment  
+	        autoIncrement: false  
+	    });  
+	      
+	    objectStore.createIndex("name", "name", { unique: false });  
+	      
+	    objectStore.createIndex("email", "email", { unique: true });  
+	      
+	    // Add initial data  
+	    for (var index = 0; index < customerData.length; index++) {  
+	        objectStore.add(customerData[index]);  
+	    }
+	}
+
+
+	
+
+
+</script>

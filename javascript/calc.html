@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8"/>
+</head>
+
+<body>
+
+	<input id="expression" style="text-align:right;" type="text"/>
+	<br/>
+
+	<button>1</button>
+	<button>2</button>
+	<button>3</button>
+	<button>+</button>
+	<br/>
+	<button>4</button>
+	<button>5</button>
+	<button>6</button>
+	<button>-</button>
+<br/>
+	<button>7</button>
+	<button>8</button>
+	<button>9</button>
+	<button>*</button>
+	<br/>
+	<button>.</button>
+	<button>0</button>	
+	<button>=</button>	
+	<button>/</button>	
+
+	<script type="text/javascript">
+
+		var expression = '';
+		var input = document.querySelector('#expression');
+
+		var handleClick = function(e){
+			//console.log(e.target.innerHTML);
+
+			var t = e.target.innerHTML;
+			if(t === "="){
+				var result = eval(expression);
+				input.value = result;
+				expression = '';
+				return;
+			}
+			expression += t;
+			input.value = expression;
+		}
+
+		var btns = document.getElementsByTagName('button');
+
+		for(var i in btns){
+			btns.item(i).addEventListener('click',function(e){
+				
+			var t = e.target.innerHTML;
+			if(t === "="){
+				var result = eval(expression);
+				input.value = result;
+				expression = '';
+				return;
+			}
+			expression += t;
+			input.value = expression;
+			});
+		}
+
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html manifest="manifest.appcache">
+
+	<head>
+		<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="reset.css">
+		<link rel="stylesheet" type="text/css" href="main.css">
+
+		<script type="text/javascript" src="a.js"></script>
+		<script type="text/javascript" src="b.js"></script>
+
+	</head>
+
+	<body>
+		<p>abcde</p>
+		<div id="log"></div>
+	</body>
+
+	<script type="text/javascript">
+
+	var Log = function(target){
+		this.buffer = [];
+		this.$el = document.querySelector(target);
+
+		this.log = function(message){
+			var _this = this;
+			this.buffer.push(message);
+			this.$el.innerHTML = '';
+			[].forEach.call(this.buffer,function(message){
+				var p = document.createElement('p');
+				p.innerHTML = message;
+				_this.$el.appendChild(p);
+			})
+		}
+	}
+
+	var log = new Log('#log');
+
+applicationCache.onchecking = function(){
+   log.log("checking")
+}
+applicationCache.ondownloading = function(){
+   log.log("dowload")
+}
+applicationCache.onnoupdate = function(){
+   log.log("noupdate")
+}
+applicationCache.onprogress = function(e){
+   log.log("progress")
+}
+applicationCache.oncached = function(){
+   log.log("cached")
+}
+applicationCache.onupdateready = function(){
+    log.log("updateready");
+    window.location.reload();
+}
+applicationCache.onobsolete = function(){
+   log.log("obsolete")
+}
+applicationCache.onerror = function(e){
+   log.log("error : " + e.message);
+}
+	</script>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="jquery.js"></script>
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+			$('button').click(function(){
+				// $.ajax({
+				// 	url :'http://localhost:1337/api/formPost'
+				// 	type:'POST',
+
+
+				// })
+
+				var onLoadHandler = function(event){
+
+					var response = JSON.parse(event.target.responseText);
+
+					console.log(response);
+
+				}
+
+				var myRequest = new XMLHttpRequest();
+				myRequest.timeout = 3000;
+				myRequest.onload = onLoadHandler;
+
+				myRequest.open("POST",'http://localhost:1337/api/formPost',true);
+
+				var formData = new FormData();
+				formData.append('username', 'Alice');
+				formData.append('age', 28);
+				formData.append('sex', 'female');
+				myRequest.send(formData);
+			})
+		})
+
+	</script>
+
+</head>
+<body>
+	<button>submit</button>
+</body>
+</html>

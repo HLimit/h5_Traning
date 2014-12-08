@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<link rel="stylesheet" type="text/css" href="">
+
+
+		<style type="text/css">
+
+
+		#expression {
+			text-align:right;
+		}
+
+		.expression {
+			padding: 50px;
+		}
+
+		input[foo="bar"]{
+			border: 2px solid red;
+		}
+
+		p:first-of-type{
+			color:red;
+		}
+
+		a:hover{
+			color:red;
+		}
+
+
+		#div1::before{
+			content: "::before" ;
+		}
+		
+
+		#div1::after{
+			content: " " ;
+		}
+		
+		</style>
+	</head>
+
+	<body>
+
+		<a href="#">link</a>
+
+		<div id="div1">
+			<div>111</div>
+			<p>first child of div</p>
+			<p>second child of div</p>
+		</div>
+
+
+		<input  class="expression" foo="bar" readonly id="expression"  type="text" />
+		<br/>
+
+		<button>1</button>
+		<button>2</button>
+		<button>3</button>
+		<button>+</button>
+		<br/>
+
+		<button>4</button>
+		<button>5</button>
+		<button>6</button>
+		<button>-</button>
+		<br/>
+
+		<button>7</button>
+		<button>8</button>
+		<button>9</button>
+		<button>*</button>
+		<br/>
+
+
+		<button>.</button>
+		<button>0</button>
+		<button>=</button>
+		<button>/</button>
+		<br/>
+
+		<script type="text/javascript">
+
+			// var btns = document.getElementsByTagName('button');
+			// var input_expression = document.getElementById('expression');
+			// var expression = '';
+
+			// // function handleClick(e){
+			// // 	var tmp = e.target.innerHTML;
+
+			// // 	if(tmp === '='){
+			// // 		var result = eval(expression);
+			// // 		input_expression.value = result;
+			// // 		expression = '';
+			// // 		return;
+			// // 	}
+
+			// // 	expression += tmp;
+			// // 	input_expression.value = expression;
+			// // }
+
+			// for(var i=0 ; i< btns.length ; i++){
+			// 	btns.item(i).addEventListener('click',function(e){
+			// 		var tmp = e.target.innerHTML;
+
+			// 		if(tmp === '='){
+			// 			var result = eval(expression);
+			// 			input_expression.value = result;
+			// 			expression = '';
+			// 			return;
+			// 		}
+
+			// 		expression += tmp;
+			// 		input_expression.value = expression;
+			// 	});
+			// }
+
+		var expression = '';
+		var input = document.querySelector('#expression');
+
+		var handleClick = function(e){
+			//console.log(e.target.innerHTML);
+
+			var t = e.target.innerHTML;
+			if(t === "="){
+				var result = eval(expression);
+				input.value = result;
+				expression = '';
+				return;
+			}
+			expression += t;
+			input.value = expression;
+		}
+
+		var btns = document.getElementsByTagName('button');
+
+		for(var i=0;i < btns.length; i++){
+			//console.log(i);
+			//console.log(btns.item(i));
+			btns.item(i).addEventListener('click',handleClick);
+		}
+
+		</script>
+
+	</body>
+
+</html>

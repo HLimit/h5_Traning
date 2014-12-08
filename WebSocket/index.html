@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+</head>
+<body>
+
+<div id="support"></div>
+
+<section>
+	<label>target url:</label>
+	<input id="url" type="text" value="ws://localhost:5000/echo" />
+</section>
+
+<section>
+	<label>Send Message:</label>
+	<input id="pending_message"/>
+	<button id="send">send</button>
+</section>
+
+<section id="log">
+</section>
+
+<script type="text/javascript">
+
+	var Log = function(target){
+		this.buffer = [];
+		this.$el = document.querySelector(target);
+
+		this.log = function(message){
+			var _this = this;
+			this.buffer.push(message);
+			this.$el.innerHTML = '';
+			[].forEach.call(this.buffer,function(message){
+				var p = document.createElement('p');
+				p.innerHTML = message;
+				_this.$el.appendChild(p);
+			})
+		}
+	}
+
+
+	if(window.WebSocket){
+		document.querySelector('#support').innerHTML = "Web Socket is Supported."
+
+		//create log
+		var log = new Log('#log');
+
+		if (this.MozWebSocket) { 
+			WebSocket = MozWebSocket; 
+		}
+
+		//create websocket
+		var url = document.querySelector('#url').value
+		var w = new WebSocket(url);
+
+		w.onopen = function () {
+			log.log('open.')
+			w.send("thank you for accepting this websocket request.");
+		}
+
+		w.onmessage = function(e){
+			log.log('Echo from Server: ' + e.data)
+		}
+
+		w.onclose = function(e){
+			log.log("closed");
+		}
+
+		w.onerror = function(e){
+			log.log("error");
+		}
+
+		document.querySelector('#send').onclick = function(){
+			var message = document.querySelector('#pending_message').value;
+			if(message){
+				w.send(message);
+			}
+		}
+
+	}
+	else{
+		document.querySelector('#support').innerHTML = "Web Socket is not Supported!"
+	}
+
+</script>
+</body>
+</html>

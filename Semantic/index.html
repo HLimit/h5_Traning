@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+
+		* { box-sizing:border-box;}
+
+		header,nav,aside,footer{
+			border: 1px solid #000;
+		}
+
+		#frame {
+			width: 1000px;
+			margin: 0 auto;
+		}
+
+		header {
+			height: 80px;
+			background: #f05;
+			text-align: center;
+			line-height: 80px;
+		}
+
+		nav {
+			float: left;
+			height: 500px;
+			width: 200px;
+			background: #ff0;
+		}
+
+		aside {
+			float: left;
+			height: 500px;
+			width: 200px;
+			background: #0ff;
+
+		}
+
+		#mainContent {
+			float: left;
+			height: 500px;
+			width: 600px;
+			background: #584;
+		}
+
+		footer {
+			height: 80px;
+			background: #1ee;
+			text-align: center;
+			line-height: 80px;
+			*clear:both;
+		}
+
+		.clearfix:after {
+			content: " ";
+			display:block;
+			clear: both;
+			visibility: hidden;
+			height: 0px;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="frame">
+		<header>header</header>
+		<div class="clearfix">
+			<nav></nav>
+			<div id="mainContent" role="main">main
+			</div>
+			<aside></aside>
+		</div>
+		
+		<footer>footer</footer>
+	</div>
+
+</body>
+</html>
