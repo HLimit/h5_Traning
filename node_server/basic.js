@@ -21,6 +21,27 @@ var fake_file_directory = [
 ]
 
 
+var mine={
+  "css": "text/css",
+  "gif": "image/gif",
+  "html": "text/html",
+  "ico": "image/x-icon",
+  "jpeg": "image/jpeg",
+  "jpg": "image/jpeg",
+  "js": "text/javascript",
+  "json": "application/json",
+  "pdf": "application/pdf",
+  "png": "image/png",
+  "svg": "image/svg+xml",
+  "swf": "application/x-shockwave-flash",
+  "tiff": "image/tiff",
+  "txt": "text/plain",
+  "wav": "audio/x-wav",
+  "wma": "audio/x-ms-wma",
+  "wmv": "video/x-ms-wmv",
+  "xml": "text/xml"
+};
+
 //this should be request itself
 //param.res
 //param.url
@@ -100,7 +121,38 @@ http.createServer(function (req, res) {
 		})
 	}
 	else{
-		return;
+		var realPath = path.join("assets", pathname);
+		var ext = path.extname(realPath);
+		ext = ext ? ext.slice(1) : 'unknown';
+		fs.exists(realPath, function (exists) {
+	        if (!exists) {
+	            res.writeHead(404, {
+	                'Content-Type': 'text/plain',
+	                'Access-Control-Allow-Origin':'*'
+	            });
+
+	            res.write("This request URL " + pathname + " was not found on this server.");
+	            res.end();
+	        } else {
+	            fs.readFile(realPath, "binary", function (err, file) {
+	                if (err) {
+	                    res.writeHead(500, {
+	                        'Content-Type': 'text/plain',
+	                        'Access-Control-Allow-Origin':'*'
+	                    });
+	                    res.end(err);
+	                } else {
+	                    var contentType = mine[ext] || "text/plain";
+	                    res.writeHead(200, {
+	                        'Content-Type': contentType,
+	                        'Access-Control-Allow-Origin':'*'
+	                    });
+	                    res.write(file, "binary");
+	                    res.end();
+	                }
+	            });
+	        }
+	    });
 	}
 
 }).listen(port, "127.0.0.1");
