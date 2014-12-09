@@ -18,6 +18,8 @@ var fake_file_directory = [
 { id:9, file_name:'file6',type:1,pid:null },
 { id:12, file_name:'file7',type:1,pid:null },
 { id:11, file_name:'file8',type:1,pid:null },
+{ id:13, file_name:'folder111',type:0,pid:1 },
+{ id:14, file_name:'file111',type:1,pid:13 },
 ]
 
 
@@ -47,21 +49,33 @@ var mine={
 //param.url
 
 var Handler = {
+
 	resourcesController: function(param){
 
 		//console.log(param.url.query);
-		var pid = param.url.query ? param.url.query.pid : null;
-		if(pid.toLowerCase() == 'null') pid = null;
-		param.res.writeHead(200, {
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Origin':'*'
-		});
-		param.res.end(JSON.stringify(
-			fake_file_directory.filter(function(item){
-				return (pid == null ? !item.pid : item.pid == pid);
-			})
-		));
+		if(this.method.toLowerCase() == 'post'){
+			var form = new formidable.IncomingForm();
+			form.parse(this, function(err, fields, files){
+				console.log(fields);
+			});
+		}
+		else if(this.method.toLowerCase() == 'get'){
+			var pid = param.url.query ? param.url.query.pid : null;
+			if(pid.toLowerCase() == 'null') pid = null;
+			param.res.writeHead(200, {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin':'*'
+			});
+			param.res.end(JSON.stringify(
+				fake_file_directory.filter(function(item){
+					return (pid == null ? !item.pid : item.pid == pid);
+				})
+			));
+		}
 	},
+
+
+
 
 	formPostController: function(param){
 
@@ -89,6 +103,8 @@ var Handler = {
 			'Access-Control-Allow-Origin':'*'
 		});
 
+		param.res.end();
+
 
 
 	}
@@ -115,6 +131,7 @@ http.createServer(function (req, res) {
 
 	if(segments[0] == 'api'){
 		var functionName = segments[1]+'Controller';
+		//`this`
 		Handler[functionName] && Handler[functionName].call(req,{
 			res: res,
 			url : parsedurl
@@ -124,6 +141,7 @@ http.createServer(function (req, res) {
 		var realPath = path.join("assets", pathname);
 		var ext = path.extname(realPath);
 		ext = ext ? ext.slice(1) : 'unknown';
+		console.log(realPath);
 		fs.exists(realPath, function (exists) {
 	        if (!exists) {
 	            res.writeHead(404, {
