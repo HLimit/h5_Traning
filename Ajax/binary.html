@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="jquery.js"></script>
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+			$('button').click(function(){
+
+				var onLoadHandler = function(event){
+
+					var blob = new Blob([event.target.response], {type: 'image/jpeg'});
+					console.log(blob.size);
+
+					var reader = new FileReader();
+					reader.onload = function(e){
+						$('#preview').attr('src',reader.result);
+                    };
+					reader.readAsDataURL(blob);
+				}
+
+				var myRequest = new XMLHttpRequest();
+				myRequest.onload = onLoadHandler;
+				myRequest.responseType = 'blob';
+				myRequest.open('GET', 'http://localhost:1337/IMG_0507.JPG',true);
+				myRequest.send(null);
+				
+
+			})
+		})
+
+	</script>
+
+</head>
+<body>
+	<img id="preview" src="">
+	<button>submit</button>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+	</head>
+
+	<body>
+
+		<button id="click">click</button>
+
+		<script type="text/javascript">
+
+			var button = document.getElementById('click');
+			button.addEventListener('click',function (e) {
+
+				var myRequest = new XMLHttpRequest();
+				myRequest.responseType = 'blob';
+				myRequest.open('GET','http://localhost:1337/IMG_0507.JPG',true);
+				myRequest.onload = function(e){
+					var blob = new Blob([event.target.response], {type: 'image/png'});
+					
+					var fileReader = new FileReader();
+					fileReader.onload = function(e){
+						var img = document.createElement('img');
+						img.setAttribute('src',e.target.result);
+						document.body.appendChild(img);
+					}
+					
+					//base64 encoded
+					fileReader.readAsDataURL(blob);
+				}
+				myRequest.send(null);
+			})
+
+		</script>
+
+	</body>
+
+</html>

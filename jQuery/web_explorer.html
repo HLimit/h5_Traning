@@ -2,13 +2,16 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<script src="http://cdn.bootcss.com/jquery/2.1.1-rc2/jquery.min.js"></script>
+	<script src="jquery.js"></script>
 	<script type="text/javascript">
 
 		$(document).ready(function(){
 
 			var $ul = $('#list');
+			var $nav = $('#navigation');
+			var stack = [{id:null,name:''}];
 			var $back = $('#back');
+			var $button = $('button');
 
 			function fetch(pid){
 				var _pid = pid || null;
@@ -25,6 +28,7 @@
 									$li.append($a);
 									$a.html(item.file_name);
 									$a.data('id',item.id);
+									$a.data('file_name',item.file_name);
 								}
 								else{
 									$li.html(item.file_name);
@@ -37,21 +41,137 @@
 				})
 			}
 
-			fetch();
+			//file.name should be the name
+			//file.type should be the type 0|1
+			function post(file){
+				$.ajax({
+					url:'http://localhost:1337/api/resources',
+					type:'POST',
+					data: JSON.stringify(file),
+					success:function(){
+						console.log(1);
+					}
+				})
+			}
 
+			function renderNavigation(){
+				$nav.empty();
+				stack.forEach(function(item,index){
+					if(!item) return;
+					$li = $('<li>' + item.name + '</li>');
+					$nav.append($li);
+				})
+			}
+
+			fetch();
 
 			$ul.on('click','a',function(){
 
 				var $this = $(this);
 				var id = $this.data('id');
 				fetch(id);
+				stack.push({
+					id:id,
+					name:$this.data('file_name')
+				});
+				renderNavigation();
 			})
+
+			$back.click(function(){
+				if(stack[stack.length-2]){
+					fetch(stack[stack.length-2].id);
+				}
+				else{
+					fetch(null);
+				}
+				
+
+				//pop the last one in the stack
+				// var tmp = [];
+				// for(var i = 0;i < stack.length-1;i++){
+				// 	tmp.push(stack[i]);
+				// }
+
+				// stack = tmp;
+
+				//stack = stack.slice(0,stack.length-1);
+				stack.pop();
+				renderNavigation();
+			});
+
+			$button.click(function(){
+				console.log(10);
+				post({
+					name:'new_file',
+					type:1
+				})
+			})
+
+			renderNavigation();
 		})
 
 	</script>
 
+	<style type="text/css">
+
+		*{margin: 0px;padding: 0px;}
+
+		.container{
+			width: 960px;
+			margin: 10px auto;
+		}
+
+
+		#navigation{
+			list-style: none;
+			height: 20px;
+			border: 1px solid #ccc;
+			padding: 10px;
+			margin: 10px;
+		}
+
+		.clearfix:after{
+			clear: both;
+			visibility: hidden;
+			content: " ";
+			display:block;
+		}
+
+		#navigation li{
+			float: left;
+			margin-right: 10px;
+		}
+
+		#navigation li:last-child{
+			font-weight: bold;
+		}
+
+		#navigation li:after{
+			content: " /";
+		}
+
+		#list{
+			padding: 0px;
+			margin:  0px;
+			list-style: none;
+		}
+
+		#list li{
+			margin: 5px;
+		}
+
+	</style>
+
 </head>
 <body>
-	<ul id="list"></ul>
+	<div class="container">
+		<a href="##" id="back">Back</a>
+		<div class="clearfix">
+			<ul id="navigation">
+			</ul>
+		</div>
+		<ul id="list"></ul>
+		<button>submit</button>
+	</div>
 </body>
 </html>

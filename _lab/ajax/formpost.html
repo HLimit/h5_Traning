@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+
+		
+	</head>
+
+	<body>
+
+		<button id="click">click</button>
+
+		<script type="text/javascript">
+
+			var button = document.getElementById('click');
+			button.addEventListener('click',function (e) {
+					
+
+				var myRequest = new XMLHttpRequest();
+				myRequest.open('POST','http://localhost:1337/api/formPost');
+
+				myRequest.onload = function(e){
+					console.log('finished');
+				}
+
+				if(window.FormData){
+					var formData = new FormData();	
+					formData.append('username','alice');
+					formData.append('age',28);
+					myRequest.send(formData);
+				}
+
+			})
+
+		</script>
+
+	</body>
+
+</html>

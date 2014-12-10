@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+		<script type="text/javascript" src="jquery.js"></script>
+
+		<style type="text/css">
+
+			*{font:italic 20px monospace;}
+
+			.progress-bar-outer {
+				width: 500px;
+				height: 20px;
+				border: 1px solid green;
+				position: relative;
+				margin: 5px;
+			}
+
+			.progress-bar-inner{
+				width: 0.1%;
+				height: 100%;
+				background: green;
+				*vertical-align: middle;
+			}
+
+			.progress-bar-outer span {
+				position: absolute;
+				display: block;
+				width: 200px;
+				/* long file name */
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow:ellipsis;
+			}
+
+			.progress-bar-outer label {
+				position: absolute;
+				text-align: center;
+				left: 0;
+				right: 0;
+				top:0;
+			}
+
+		</style>
+
+	</head>
+
+	<body>
+
+		<input id="_file" type="file" multiple/>
+
+		<button id="click">click</button>
+
+<!-- 		<div class="progress-bar-outer">
+			<div id="progress-bar-inner" class="progress-bar-inner"></div>
+			<label></label>
+		</div>  -->
+
+		<div id="progress-bar-container"></div>
+
+		<script type="text/javascript">
+
+var button = document.getElementById('click');
+//var progressbar = document.getElementById('progress-bar-inner');
+var progressBarContainer = document.getElementById('progress-bar-container');
+button.addEventListener('click',function (e) {
+
+	var file = document.getElementById('_file');
+	//file.files //FileList
+	if(file.files && file.files.length > 0){
+
+		var request = new XMLHttpRequest();
+		// request.onload = function(e){
+		// 	console.log('finish!');
+		// }
+
+		// request.upload.onprogress = function(e){
+		// 	if(e.lengthComputable){
+		// 		//console.log(e.loaded / e.total);
+		// 		$(progressbar).css('width',e.loaded*100/e.total+'%');
+		// 		$(progressbar).next().html(Math.round(e.loaded*100/e.total)+'%');
+		// 	}
+		// }
+
+		var handleOnload = function(e){
+			console.log('finish!');
+		}
+
+		var handleProgress = function(e){
+			//e.target should be the request
+			//e.target.__fileinfo.el should be the `outer` div
+			if(e.lengthComputable){
+				e.target.__fileinfo.el.children('.progress-bar-inner').css('width',e.loaded*100/e.total+'%');
+				e.target.__fileinfo.el.children('label').html(Math.round(e.loaded*100/e.total)+'%');
+			}
+		}
+		
+		for(var i =0;i<file.files.length;i++){
+			
+			var request = new XMLHttpRequest();
+			var _file = file.files[i];
+// <div class="progress-bar-outer">
+// 	<div id="progress-bar-inner" class="progress-bar-inner"></div>
+// 	<label></label>
+// </div> 
+var outer = $('<div class="progress-bar-outer"></div>');
+//for the file name display
+outer.append('<span>' + _file.name + '</span>');
+outer.append('<div class="progress-bar-inner"></div>');
+outer.append('<label></label>');
+			progressBarContainer.appendChild(outer.get(0));
+
+			//store as a private property
+			//upload is the object you can access in the onprogress handler as `e.target`
+			request.upload.__fileinfo = {
+				file:_file,
+				el: outer
+			}
+			request.upload.onprogress = handleProgress;
+			request.onload = handleOnload;
+			request.open('POST','http://localhost:1337/api/formPost',true);
+
+			var formData = new FormData();
+			formData.append('file' + i,_file);
+			request.send(formData);
+		}
+		
+	}
+})
+
+		</script>
+
+	</body>
+
+</html>

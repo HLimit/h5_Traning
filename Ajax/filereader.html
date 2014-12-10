@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<script src="jquery.js"></script>
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+			$('button').click(function(){
+
+				var $file = $('input[type=file]');
+				var file = $file.get(0);
+
+				if(file.files && file.files.length > 0){
+
+
+					for(var i = 0 ; i< file.files.length;i++){
+
+						var _file = file.files[i];
+						var reader = new FileReader();
+						reader.onload = function(e){
+							
+							$('<img>').attr({
+								'src':e.target.result
+							}).css({
+								width:'100px',
+								height:'100px'
+							}).appendTo($('body'));
+	                    };
+	                    reader.readAsDataURL(_file);
+
+					}
+
+
+				}
+
+				
+
+			})
+		})
+
+	</script>
+
+</head>
+<body>
+	<input type="file" multiple/>
+	<button>show pic</button>
+</body>
+</html>
