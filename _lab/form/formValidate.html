@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+
+<html>
+
+<head>
+	<style type="text/css">
+
+		*{margin:0px;padding: 0px;font-family: 'Arial',monospace;}
+
+		.container{
+			width: 960px;
+			margin: 10px auto;
+		}
+
+		.row {
+			margin: 15px;
+			height: 35px;
+		}
+
+		.row::after {
+			clear:both;
+			content: " ";
+			visibility: hidden;
+			height: 0px;
+		}
+
+		input[type="text"]
+		,input[type="password"]
+		,input[type="email"]
+		 {
+		 	display: block;
+		 	float: right;
+			height: 15px;
+			width: 300px;
+			padding: 5px;
+		}
+
+		label {
+			display: block;
+			float: right;
+			margin-right:10px;
+			height: 35px;
+			width: 200px;
+			text-align: right;
+		}
+
+		label span{
+			color:red;
+		}
+
+		.row input[required] + label::before{
+			content: "*";
+			color:red;
+			margin-right: 2px;
+		}
+
+	</style>
+
+</head>
+
+
+<body>
+
+	<div class="container">
+		<form id="form">
+			<div class="row">
+				<input type="text" required="required" placeholder="John" value="Parker"/>
+				<label>Name:</label>
+			</div>
+			<div class="row">
+				<input id="password" type="password" required="required"/>
+				<label>Password:</label>
+				
+			</div>
+			<div class="row">
+				<input id="password_confirm"  type="password" required="required"/>
+				<label>Password Confirm:</label>
+				
+			</div>
+			<div class="row">
+				<input type="email" required="required"  value="1@1.com"/>
+				<label>Email:</label>
+				
+			</div>
+			<div class="row">
+				<input type="text"/>
+				<label>QQ:</label>
+			</div>
+			<div class="row">
+				<input type="submit" style="float:right;"/>
+			</div>
+		</form>
+	</div>
+
+	<script type="text/javascript">
+
+		var form = document.getElementById('form');
+		form.addEventListener('submit',function (e) {
+			// body...
+			console.log(e.target);
+			console.log(document.getElementById('password'));
+			var password = document.getElementById('password').value;
+			var password_confirm = document.getElementById('password_confirm').value;
+			if(password && password_confirm && password_confirm === password){
+				e.target.submit();
+			}	
+			else{
+				//e.preventDefault();//prevent the default 
+				alert('password not match.');
+			}
+
+		})
+
+	</script>
+
+</body>
+
+</html>

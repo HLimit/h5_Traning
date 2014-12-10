@@ -1,0 +1,44 @@
+<script type="text/javascript">
+
+function Animal(name){
+	//
+	this.name = name;
+	this.color = ['red','green','blue'];
+
+}
+
+
+Animal.apply = function(name){
+	console.log(1);
+}
+
+
+var cat2 = {};//new Animal();
+Animal.apply(cat2,['ketty']);
+console.log(cat2);
+
+// Animal.prototype.spices = 'animal';
+
+// function Dog(name){
+// 	Animal.call(this,name);
+// }
+// //
+// Dog.prototype = new Animal();
+// Dog.prototype.bart = function(){
+// 	console.log( this.name +' wang!');
+// }
+// var dog1 = new Dog('wangcai');
+// console.log(dog1.spices); // animal
+// console.log(dog1.name); //'wangcai'
+// dog1.bart();//wangcai wang!
+// console.log(dog1.color); // ['red','green','blue'];
+// dog1.color.push('black'); // ['red','green','blue','black'];
+// console.log(dog1.color);
+
+// var dog2 = new Dog('gaofei');
+// console.log(dog2.color); // ['red','green','blue']; 
+// dog2.bart();// gaofei wang!
+// console.log(dog2.spices); // animal
+
+
+</script>
