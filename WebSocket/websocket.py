@@ -97,11 +97,11 @@ class WebSocketConnection(asyncore.dispatcher_with_send):
 		if len(buf) < payload_start + 4:
 			return
 		elif length == 126:
-			length, = struct.unpack(">H", buf[2:4])
+			length, = struct.unpack(">H", buf[2:4]) #unsigned short 2 bytes
 			payload_start += 2
 		elif length == 127:
-			length, = struct.unpack(">I",buf[2:6])
-			payload_start += 4
+			length, = struct.unpack(">Q",buf[2:10]) #unsigned long long 8 bytes
+			payload_start += 8
 
 		if mask:
 			mask_bytes = [ord(b) for b in buf[payload_start:payload_start+4]]
