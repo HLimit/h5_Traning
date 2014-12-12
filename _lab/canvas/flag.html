@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+
+<html>
+
+	<body>
+
+		<canvas id="mycanvas" width="300" height="300"></canvas>
+
+		<svg width="800" height="600" viewBox="0,0,40,30" xmlns="http://www.w3.org/2000/svg">
+		    <path d="M10,5 L10,15 M8,15 L12,15" stroke="#000"></path>
+		    <path id="triangle" d="M10,5 L15,7.5 L10,10" fill="#f00"></path>
+		</svg>
+
+		<script type="text/javascript">
+
+			var mycanvas = document.getElementById('mycanvas');
+			var ctx = mycanvas.getContext('2d');
+
+
+			function drawFlag(ctx,gridWidth){
+
+				ctx.save();
+				ctx.fillStyle="#000000";
+				ctx.lineWidth = gridWidth*0.03;
+				ctx.beginPath();
+				//veritical line
+				ctx.moveTo(gridWidth/2,gridWidth/4);
+				ctx.lineTo(gridWidth/2,gridWidth*0.75);
+				//h line
+				ctx.moveTo(gridWidth/2-gridWidth*0.1,gridWidth*0.75);
+				ctx.lineTo(gridWidth/2+gridWidth*0.1,gridWidth*0.75);
+				ctx.stroke();
+				//triangle
+				ctx.fillStyle = "#ff0000";
+				ctx.moveTo(gridWidth/2,gridWidth/4);
+				ctx.lineTo(gridWidth*0.75,gridWidth*3/8);
+				ctx.lineTo(gridWidth/2,gridWidth/2);
+				ctx.fill();
+				ctx.restore();
+			}
+
+			drawFlag(ctx,300);
+			ctx.fillRect(0,0,50,50);
+
+			var triangle = document.getElementById('triangle');
+			triangle.addEventListener('click',function(){
+				alert(1);
+			})
+
+		</script>
+
+
+	</body>
+
+
+</html>

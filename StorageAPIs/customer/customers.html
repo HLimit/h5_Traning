@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script src="jquery.js"></script>
+		<script src="main.js"></script>
+		<link rel="stylesheet" type="text/css" href="main.css">
+	</head>
+	<body>
+
+		<button id="add_new">Add New</button>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Company</th>
+					<th>Tel.</th>
+					<th>Age</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody id="list">
+<!-- 				<tr>
+					<td>John</td>
+					<td>Mongan Stanly</td>
+					<td>12345678</td>
+					<td>45</td>
+					<td><a href="#" class="edit">Edit</a> <a href="#" class="delete">Delete</a></td>
+				</tr> -->
+			</tbody>
+		</table>
+
+
+<div id="new_form" class="mask" style="display: none;">
+	<div class="dialog">
+		<form id="form">
+			<div class="row">
+				<input id="_id" type="hidden"/>
+				<input id="name" type="text" required="required" placeholder="John" value="Parker"/>
+				<label>Name:</label>
+			</div>
+			<div class="row">
+				<input id="company" type="text" required="required"/>
+				<label>Company:</label>
+			</div>
+			<div class="row">
+				<input id="telephone"  type="tel" required="required"/>
+				<label>Tel:</label>
+				
+			</div>
+			<div class="row">
+				<input id="age" type="number" required="required"  value="28"/>
+				<label>Age:</label>
+			</div>
+			<div class="row">
+				<input type="submit" style="float:right;"/>
+			</div>
+			<a href="#" class="close">×</a>
+		</form>
+	</div>
+</div>
+
+	</body>
+
+</html>

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=hge5c6taVgd4pDcXb0VmPUgT"></script>
+<!-- 		// <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=hge5c6taVgd4pDcXb0VmPUgT"></script> -->
 		<style type="text/css">
 			#allmap{height:500px;width:100%;}
 		</style>
@@ -12,9 +12,9 @@
 		<div id="location"></div>
 		<script type="text/javascript">
 
-			var map = new BMap.Map("allmap");
-			map.centerAndZoom(new BMap.Point(116.331398,39.897445),11);
-			map.enableScrollWheelZoom(true);
+			// var map = new BMap.Map("allmap");
+			// map.centerAndZoom(new BMap.Point(116.331398,39.897445),11);
+			// map.enableScrollWheelZoom(true);
 
 
 			if(navigator.geolocation){
@@ -28,11 +28,11 @@
 					p.innerHTML = message;
 					loc.appendChild(p);
 				
-					map.clearOverlays(); 
-					var new_point = new BMap.Point(e.coords.longitude , e.coords.latitude);
-					var marker = new BMap.Marker(new_point);  // 创建标注
-					map.addOverlay(marker);              // 将标注添加到地图中
-					map.panTo(new_point);      
+					// map.clearOverlays(); 
+					// var new_point = new BMap.Point(e.coords.longitude , e.coords.latitude);
+					// var marker = new BMap.Marker(new_point);  // 创建标注
+					// map.addOverlay(marker);              // 将标注添加到地图中
+					// map.panTo(new_point);      
 
 				},
 				function(e){

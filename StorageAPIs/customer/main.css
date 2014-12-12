@@ -1,0 +1,83 @@
+*{margin:0px;padding: 0px;font-family: 'Arial',monospace;}
+
+
+table,td,th{
+	border: 1px solid #000;
+	border-collapse: collapse;
+	padding: 5px 30px;
+}
+
+.row {
+	margin: 15px;
+	height: 35px;
+}
+
+.row::after {
+	clear:both;
+	content: " ";
+	visibility: hidden;
+	height: 0px;
+}
+
+input[type="text"]
+,input[type="tel"]
+,input[type="number"]
+ {
+ 	display: block;
+ 	float: right;
+	height: 15px;
+	width: 300px;
+	padding: 5px;
+}
+
+label {
+	display: block;
+	float: right;
+	margin-right:10px;
+	height: 35px;
+	*width: 145px;
+	text-align: right;
+}
+
+label span{
+	color:red;
+}
+
+.row input[required] + label::before{
+	content: "*";
+	color:red;
+	margin-right: 2px;
+}
+
+.mask{
+	position: absolute;
+	right: 0;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	background-color: rgba(65,65,65,0.5);
+}
+
+.dialog{
+	position: absolute;
+	padding: 5px;
+	width: 500px;
+	top:25%;
+	left: 50%;
+	margin-left: -250px;
+	background: #fff;
+	border:2px solid #ccc;
+	box-shadow: 3px 3px 10px #000;
+}
+
+.dialog #form {
+	position: relative;
+}
+
+.dialog #form .close{
+	position: absolute;
+	right: -5px;
+	top:-26px;
+	text-decoration: none;
+	font-size: 30px;
+}

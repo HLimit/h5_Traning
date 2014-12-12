@@ -54,6 +54,7 @@
 		target.addEventListener('drop',function(e){
 
 			var files = e.dataTransfer.files;
+			console.log(files);
 			[].forEach.call(files,function(file){
 				var tr = document.createElement('tr');
 				var td1 = document.createElement('td');

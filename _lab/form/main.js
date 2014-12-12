@@ -46,6 +46,9 @@ $(function() {
 
 		e.preventDefault();
 
+		// console.log(e.target);
+		// console.log(e.currentTarget);
+
 		var $tr = $(e.target).parent().parent();
 		var customer = $tr.data('fields');
 		if(customer){

@@ -52,7 +52,7 @@
 
 		//create websocket
 		var url = document.querySelector('#url').value
-		var w = new WebSocket(url);
+		var w = new WebSocket(url); // ws://localhost:5000/echo
 
 		w.onopen = function () {
 			log.log('open.')

@@ -58,6 +58,9 @@
 			e.dataTransfer.effectAllowed = 'move';
 			e.dataTransfer.setData("text/plain", e.target.innerHTML);
 			e.dataTransfer.setData("errrr",e.target.dataset.age);
+
+			currentDrag = e.target;
+
 			var feedback = document.querySelector('#drag-feedback-img');
 			// e.dataTransfer.addElement(feedback);
 			e.dataTransfer.setDragImage(feedback,50,50);
@@ -102,6 +105,10 @@
 
 			var drag_data = e.dataTransfer.getData("text/plain");
 			var drag_age = e.dataTransfer.getData("errrr");
+
+			if(currentDrag && currentDrag.parentNode){
+				currentDrag.parentNode.removeChild(currentDrag);
+			}
 
 			var li = document.createElement('li');
 			li.innerHTML = drag_data + ':' + drag_age;
